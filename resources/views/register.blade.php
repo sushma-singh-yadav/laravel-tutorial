@@ -14,28 +14,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="text-center mt-3 mb-4">Form Submit With Image</h1>
+                <h1 class="text-center mt-3 mb-4">Multiple Image Upload</h1>
 
-                <form method="post" id="register-form" enctype="multipart/form-data" onsubmit="saveRegister(event)">
+                <form id="image-upload-form" method="post" enctype="multipart/form-data" onsubmit="saveFileUpload(event)">
                     @csrf
                     <div class="row">
                         <div class="col-md-4 mb-2">
                         </div>
                         <div class="col-md-4 ">
                             <div class="form-group mb-3">
-                                <label for="exampleInputEmail1"> Name</label>
-                                <input type="text" class="form-control" name="input_name" id="inputName"
-                                    aria-describedby="nameHelp" placeholder="Enter name" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="exampleInputEmail1"> Email</label>
-                                <input type="email" class="form-control" name="input_email" id="inputEmail"
-                                    aria-describedby="emailHelp" placeholder="Enter email" required>
-                            </div>
-                            <div class="form-group mb-3">
                                 <label for="exampleInputEmail1"> Image</label>
-                                <input type="file" class="form-control" name="input_image" id="inputImage"
-                                    aria-describedby="emailHelp" required>
+                                <input type="file" class="form-control" name="input_image[]" id="inputImage"
+                                    aria-describedby="emailHelp" required multiple>
                             </div>
 
                             <div class="form-group mb-2 text-center">
@@ -62,21 +52,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 <script>
-    function saveRegister(e)
-    {
+    function saveFileUpload(e){
         e.preventDefault();
-        console.log($('#register-form'));
-        var registerData = $('#register-form')[0];
-        var formData = new FormData(registerData);
+        console.log($('#image-upload-form'));
+        var imageForm = $('#image-upload-form')[0];
+        var imageFormData = new FormData(imageForm);
 
         $.ajax({
-            url:"{{url('saveRegister')}}",
-            method:"POST",
-            data:formData,
+            method:"post",
+            url:"{{url('saveImageForm')}}",
+            data:imageFormData,
             contentType:false,
             processData:false,
             success:function(response){
-                console.log(response);
+                console.log('response',response);
             }
         })
     }

@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [RegisterController::class,'index']);
-Route::post('/saveRegister', [RegisterController::class,'store']);
+Route::post('/saveImageForm', [RegisterController::class,'store']);

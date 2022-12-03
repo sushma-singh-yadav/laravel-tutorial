@@ -9,6 +9,6 @@ class Register extends Model
 {
     use HasFactory;
 
-    protected $table = 'register';
-    protected $fillable = ['name','email','file_name'];
+    protected $table = 'file_upload';
+    protected $fillable = ['file_name'];
 }

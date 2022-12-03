@@ -44,6 +44,13 @@ return [
             'throw' => false,
         ],
 
+        'file_uploads' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/file_uploads'),
+            'url' => env('APP_URL').'/storage/file_uploads',
+            'visibility' => 'public'
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

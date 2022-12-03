@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Register;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -37,21 +38,21 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         //.
-        $inputArr = $request->all();
+        $uploadedFiles = $request->file('input_image');
 
-        $filename ='';
+        $file_list = [];
         if($request->hasFile('input_image')){
-            $image = $request->file('input_image');
-            $filename = $image->getClientOriginalName();
-            $image->move('uploads',$filename);
+            foreach($uploadedFiles as $files){
+                $filename = 'File-'.$files->getClientOriginalName();
+
+                Storage::disk('file_uploads')->putFileAs('', $files, $filename);
+                
+                Register::insert(['file_name' => $filename ]);
+                $file_list[] = Storage::disk('file_uploads')->url($filename); 
+            }
+
+           return $file_list;
         }
-
-        Register::insert([
-            'name' => $inputArr['input_name'],
-            'email' => $inputArr['input_email'],
-            'file_name' => $filename,
-        ]);
-
     }
 
     /**
