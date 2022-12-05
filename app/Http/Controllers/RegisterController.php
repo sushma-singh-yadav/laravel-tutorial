@@ -45,7 +45,7 @@ class RegisterController extends Controller
             foreach($uploadedFiles as $files){
                 $filename = 'File-'.$files->getClientOriginalName();
 
-                Storage::disk('file_uploads')->putFileAs('', $files, $filename);
+                Storage::disk('file_uploads')->putFileAs('/test', $files, $filename);
                 
                 Register::insert(['file_name' => $filename ]);
                 $file_list[] = Storage::disk('file_uploads')->url($filename); 
