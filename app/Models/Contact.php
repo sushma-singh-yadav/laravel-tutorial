@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Register extends Model
+class Contact extends Model
 {
     use HasFactory;
 
-    protected $table = 'file_upload';
-    protected $fillable = ['file_name'];
+    protected $table = 'contact';
+    protected $fillable = ['name', 'email','phone', 'file_name'];
 }

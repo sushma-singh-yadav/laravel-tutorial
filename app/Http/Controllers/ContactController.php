@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Register;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class RegisterController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class RegisterController extends Controller
     public function index()
     {
         //
-        return view('register');
+        return view('contact');
     }
 
     /**
@@ -38,21 +37,23 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         //.
-        $uploadedFiles = $request->file('input_image');
+       $validatedData = $request->validate([
+           'input_name' => 'required|min:5',
+           'input_email' => 'required|email',
+           'input_phone' => 'required|numeric|regex:/^[0-9]{10}$/',
+           'input_image' => 'required|mimes:jpg,png,jpeg'
+       ]);
 
-        $file_list = [];
-        if($request->hasFile('input_image')){
-            foreach($uploadedFiles as $files){
-                $filename = 'File-'.$files->getClientOriginalName();
+       //insert in db
+       $data = [
+           'name' => $validatedData['input_name'],
+           'email' => $validatedData['input_email'],
+           'phone' => $validatedData['input_phone'],
+           'file_name' => $validatedData['input_image'],
+       ];
+       Contact::insert($data);
 
-                Storage::disk('file_uploads')->putFileAs('/test', $files, $filename);
-                
-                Register::insert(['file_name' => $filename ]);
-                $file_list[] = Storage::disk('file_uploads')->url($filename); 
-            }
-
-           return $file_list;
-        }
+       return 'success';
     }
 
     /**
