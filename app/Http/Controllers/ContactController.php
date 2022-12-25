@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactRequest;
 
 class ContactController extends Controller
 {
@@ -34,26 +35,10 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
         //.
-       $validatedData = $request->validate([
-           'input_name' => 'required|min:5',
-           'input_email' => 'required|email',
-           'input_phone' => 'required|numeric|regex:/^[0-9]{10}$/',
-           'input_image' => 'required|mimes:jpg,png,jpeg'
-       ]);
-
-       //insert in db
-       $data = [
-           'name' => $validatedData['input_name'],
-           'email' => $validatedData['input_email'],
-           'phone' => $validatedData['input_phone'],
-           'file_name' => $validatedData['input_image'],
-       ];
-       Contact::insert($data);
-
-       return 'success';
+        dd($request->all());
     }
 
     /**

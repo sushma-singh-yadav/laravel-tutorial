@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1 class="text-center mt-3 mb-4">Form Validation</h1>
-                <div id="form-errors"></div>
+                <div id="form-errors" class="text-danger"></div>
                 <form id="contact-form" method="post" enctype="multipart/form-data" onsubmit="saveContactForm(event)">
                     @csrf
                     <div class="row">
@@ -26,21 +26,25 @@
                                 <label for="exampleInputEmail1"> Name</label>
                                 <input type="text" class="form-control" name="input_name" 
                                     aria-describedby="emailHelp" >
+                                    <span class="text-danger input_name_err formErrors"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="exampleInputEmail1"> Email</label>
                                 <input type="email" class="form-control" name="input_email"
                                     aria-describedby="emailHelp" >
+                                    <span class="text-danger input_email_err formErrors"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="exampleInputEmail1"> Phone No</label>
                                 <input type="tel" class="form-control" name="input_phone" 
                                     aria-describedby="emailHelp">
+                                    <span class="text-danger input_phone_err formErrors"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="exampleInputEmail1"> Image</label>
                                 <input type="file" class="form-control" name="input_image" 
                                     aria-describedby="emailHelp" >
+                                    <span class="text-danger input_image_err formErrors"></span>
                             </div>
 
                             <div class="form-group mb-2 text-center">
@@ -73,6 +77,7 @@
         var contactForm = $('#contact-form')[0];
         var contactFormData = new FormData(contactForm);
 
+        $('.formErrors').html('');
         $.ajax({
             method:"POST",
             url:"{{url('saveContactForm')}}",
@@ -80,28 +85,13 @@
             processData:false,
             contentType:false,
             success:function(response){
-                console.log(response);
-                $('#form-errors').html('');
             },
-            error:function(response){
-                var formErrrors = response.responseJSON.errors;
-
-                var str = '<div class="text-danger">';
-                    str += '<ul>';
-                if(formErrrors.hasOwnProperty('input_name')){
-                    str += `<li>` + formErrrors.input_name[0] + `</li>` ;
+            error:function(error){
+                var formErr = error.responseJSON.errors;
+                console.log(error);
+                for(var err in formErr){
+                    $('.'+ err +'_err').html(formErr[err][0]);
                 }
-                if(formErrrors.hasOwnProperty('input_email')){
-                    str += `<li>` + formErrrors.input_email[0]  + `</li>`;
-                }
-                if(formErrrors.hasOwnProperty('input_phone')){
-                    str += `<li>` + formErrrors.input_phone[0]  + `</li>`;
-                }
-                if(formErrrors.hasOwnProperty('input_image')){
-                    str += `<li>` + formErrrors.input_image[0] + `</li>`;
-                }
-                str += `</ul></div>`;
-                $('#form-errors').html(str);
             }
         })
     }
