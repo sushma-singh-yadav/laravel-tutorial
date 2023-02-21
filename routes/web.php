@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ContactController::class,'index']);
-Route::post('/saveContactForm', [ContactController::class,'store']);
+
+Route::get('/users/{id}', [ContactController::class,'show']);
+
+Route::resource('posts',PostController::class);
+Route::apiResource('users',UserController::class);
