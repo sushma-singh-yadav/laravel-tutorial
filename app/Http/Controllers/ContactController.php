@@ -8,10 +8,6 @@ class ContactController extends Controller
 {
     //
     public function index(){
-        echo "Hello world";
-    }
-
-    public function show($id){
-        echo $id;
+       return view('contact');
     }
 }
