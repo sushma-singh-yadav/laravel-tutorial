@@ -8,6 +8,7 @@ class ContactController extends Controller
 {
     //
     public function index(){
-      echo $result = fnCheckValue(1000);
+       $roles = config('constants.roles');
+       print_r($roles);
     }
 }
