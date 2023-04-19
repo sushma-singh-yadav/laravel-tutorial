@@ -22,13 +22,31 @@
                         <div class="col-md-4 mb-2">
                         </div>
                         <div class="col-md-4 ">
-                            @php
-                            $image ='Should be less than 110kb';    
-                            @endphp
-                            <x-inputComponent type="text" name="input_name" title="Name"/>
-                            <x-inputComponent type="email" name="input_email" title="Email"/>
-                            <x-inputComponent type="tel" name="input_phone" title="Phone No"/>
-                            <x-inputComponent type="file" name="input_image" title="Image" :image="$image"/>
+                          <div class="form-group mb-3">
+                            <label for="exampleInputEmail1"> Name</label>
+                            <input type="text" class="form-control" name="input_name" 
+                                aria-describedby="emailHelp" >
+                                <span class="text-danger input_name_err formErrors"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1"> Email</label>
+                            <input type="email" class="form-control" name="input_email"
+                                aria-describedby="emailHelp" >
+                                <span class="text-danger input_email_err formErrors"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1"> Phone No</label>
+                            <input type="tel" class="form-control" name="input_phone" 
+                                aria-describedby="emailHelp">
+                                <span class="text-danger input_phone_err formErrors"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1"> Image</label>
+                            <input type="file" class="form-control" name="input_image" 
+                                aria-describedby="emailHelp" >
+                                <span class="text-danger input_image_err formErrors"></span>
+                        </div>
+
 
                             <div class="form-group mb-2 text-center">
                                 <button type="submit" class="btn btn-info">Submit</button>
