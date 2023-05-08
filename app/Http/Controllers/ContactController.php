@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\sendMailJob;
 use App\Mail\MyFirstMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
     //
     public function index(){
-        Mail::to('knowledgethrusters@gmail.com')->send(new MyFirstMail());
-        return 'success';
+       $emailJOb = new sendMailJob();
+       $this->dispatch($emailJOb);
     }
 }

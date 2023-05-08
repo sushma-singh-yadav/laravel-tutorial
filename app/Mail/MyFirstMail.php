@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Attachment;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -13,14 +14,23 @@ class MyFirstMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $subject;
+
+    public $attachment;
+
+    public $mailData;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($subject, $attachment, $data)
     {
         //
+        $this->subject = $subject;
+        $this->attachment = $attachment;
+        $this->mailData = $data;
     }
 
     /**
@@ -31,7 +41,7 @@ class MyFirstMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'My First Mail',
+            subject: $this->subject,
         );
     }
 
@@ -44,6 +54,9 @@ class MyFirstMail extends Mailable
     {
         return new Content(
             markdown: 'emails.firstMail',
+            with:[
+                'mailData' => $this->mailData
+            ]
         );
     }
 
@@ -54,6 +67,7 @@ class MyFirstMail extends Mailable
      */
     public function attachments()
     {
-        return [];
+        return Attachment::fromPath($this->attachment['path'])->as($this->attachment['name'])->withMime($this->attachment['mime']);
+        //return [];
     }
 }
