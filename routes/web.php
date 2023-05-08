@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TermsController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ContactController::class,'index']);
+Route::middleware('policy')->group(function(){
+    Route::get('/policy', [PolicyController::class,'index']);
+    Route::get('/terms-and-conditions', [TermsController::class,'index']);
+});
+

@@ -13,7 +13,6 @@ class ContactController extends Controller
 {
     //
     public function index(){
-       $emailJOb = new sendMailJob();
-       $this->dispatch($emailJOb);
+        echo 'Welcome to home page';
     }
 }
