@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TermsController;
-use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +14,7 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::get('/', [ContactController::class,'index']);
-Route::middleware('policy')->group(function(){
-    Route::get('/policy', [PolicyController::class,'index']);
-    Route::get('/terms-and-conditions', [TermsController::class,'index']);
-});
+Route::get('/', [FileController::class,'index']);
+Route::post('/saveUploadForm', [FileController::class,'saveUploadForm']);
+
 

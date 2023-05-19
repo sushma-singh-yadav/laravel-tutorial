@@ -14,44 +14,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="text-center mt-3 mb-4">Contact Form</h1>
+                <h1 class="text-center mt-3 mb-4">Import File</h1>
                 <div id="form-errors"></div>
-                <form id="contact-form" method="post" enctype="multipart/form-data" >
+                <form id="upload-form" method="post" enctype="multipart/form-data" onsubmit="saveForm(event)">
                     @csrf
                     <div class="row">
                         <div class="col-md-4 mb-2">
                         </div>
                         <div class="col-md-4 ">
-                          <div class="form-group mb-3">
-                            <label for="exampleInputEmail1"> Name</label>
-                            <input type="text" class="form-control" name="input_name" 
-                                aria-describedby="emailHelp" >
-                                <span class="text-danger input_name_err formErrors"></span>
-                        </div>
                         <div class="form-group mb-3">
-                            <label for="exampleInputEmail1"> Email</label>
-                            <input type="email" class="form-control" name="input_email"
-                                aria-describedby="emailHelp" >
-                                <span class="text-danger input_email_err formErrors"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="exampleInputEmail1"> Phone No</label>
-                            <input type="tel" class="form-control" name="input_phone" 
-                                aria-describedby="emailHelp">
-                                <span class="text-danger input_phone_err formErrors"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="exampleInputEmail1"> Image</label>
-                            <input type="file" class="form-control" name="input_image" 
+                            <label for="exampleInputEmail1"> Upload File</label>
+                            <input type="file" class="form-control" name="upload_file" 
                                 aria-describedby="emailHelp" >
                                 <span class="text-danger input_image_err formErrors"></span>
                         </div>
 
-
                             <div class="form-group mb-2 text-center">
                                 <button type="submit" class="btn btn-info">Submit</button>
                             </div>
-
                         </div>
                         <div class="col-md-4 mb-2">
                         </div>
@@ -70,9 +50,38 @@
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</body>
-<script>
 
+    <script>
+    function saveForm(e){
+        e.preventDefault();
+        console.log($('#upload-form'));
+        var uploadForm = $('#upload-form')[0];
+        var uploadFormData = new FormData(uploadForm);
+
+        $.ajax({
+            method:"POST",
+            url:"{{url('saveUploadForm')}}",
+            data:uploadFormData,
+            processData:false,
+            contentType:false,
+            success:function(response){
+                console.log(response);
+                $('#form-errors').html('');
+            },
+            error:function(response){
+                console.log(response);
+                var errorsRes = response.responseJSON.errors;
+
+                var str = '';
+                for(let i=0; i < errorsRes.length; i++)
+                {
+                    str += errorsRes[i][0];
+                }
+                    $('#form-errors').html(str);
+            }
+        })
+    }
 </script>
+</body>
 
 </html>
