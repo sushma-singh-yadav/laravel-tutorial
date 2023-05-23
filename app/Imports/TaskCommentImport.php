@@ -3,10 +3,11 @@
 namespace App\Imports;
 
 use App\Models\Task;
+use App\Models\TaskComments;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class TaskImport implements ToModel, WithHeadingRow
+class TaskCommentImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,10 +16,11 @@ class TaskImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new Task([
+        $task = Task::where('title', $row['task'])->first();
+        return new TaskComments([
             //
-            'title' => $row['title'],
-            'description' => $row['description'],
+            'task_id' => $task->id,
+            'coments' => $row['comment'],
         ]);
     }
 }

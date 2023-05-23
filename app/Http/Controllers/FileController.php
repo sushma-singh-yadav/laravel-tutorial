@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\TaskImport;
+use App\Imports\TaskMultipleImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -15,7 +15,7 @@ class FileController extends Controller
 
     public function saveUploadForm(Request $request)
     {
-        // dd($request->file('upload_file'));
-        Excel::import(new TaskImport(), $request->file('upload_file'));
+        $uploadedFile = $request->file('upload_file');
+        Excel::import(new TaskMultipleImport(), $uploadedFile);
     }
 }
