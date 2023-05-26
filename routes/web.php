@@ -15,6 +15,6 @@ use App\Http\Controllers\FileController;
 */
 
 Route::get('/', [FileController::class,'index']);
-Route::post('/saveUploadForm', [FileController::class,'saveUploadForm']);
+Route::get('/exportSheet', [FileController::class,'exportFile']);
 
 

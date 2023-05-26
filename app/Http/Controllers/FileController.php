@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\TaskMultipleImport;
-use Illuminate\Http\Request;
+use App\Exports\TaskExport;
+use App\Models\Task;
 use Maatwebsite\Excel\Facades\Excel;
 
 class FileController extends Controller
 {
     //
     public function index(){
-       return view('import');
+        $task = Task::get();
+       return view('task',['task' => $task]);
     }
 
-    public function saveUploadForm(Request $request)
+    public function exportFile()
     {
-        $uploadedFile = $request->file('upload_file');
-        Excel::import(new TaskMultipleImport(), $uploadedFile);
+       return Excel::download(new TaskExport(), 'tasks.xlsx');
     }
 }
