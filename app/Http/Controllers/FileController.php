@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\TaskExport;
+use App\Exports\TaskMultipleExport;
 use App\Models\Task;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -16,6 +16,6 @@ class FileController extends Controller
 
     public function exportFile()
     {
-       return Excel::download(new TaskExport(), 'tasks.xlsx');
+        return Excel::download(new TaskMultipleExport(), 'task.xlsx');
     }
 }
