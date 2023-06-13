@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FileController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,8 @@ use App\Http\Controllers\FileController;
 |
 */
 
-Route::get('/', [FileController::class,'index']);
-Route::get('/exportSheet', [FileController::class,'exportFile']);
+Route::get('/', [TaskController::class,'index']);
+Route::get('/store', [TaskController::class,'store']);
+Route::get('/show/{task}', [TaskController::class,'show']);
 
 
