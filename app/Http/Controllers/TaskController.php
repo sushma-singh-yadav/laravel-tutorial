@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class TaskController extends Controller
 {
@@ -14,9 +15,16 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
-        echo '<pre>';
-         print_r(Task::all());
+        // get from redis
+        $taskList = Redis::get("taskList");
+        $task = json_decode($taskList);
+       //dd($task);
+        if($task == '')
+        { // if key is not set, then fetch the data and set it
+            $task = Task::all();
+            Redis::set("taskList",$task);
+        }
+         return view('task', ['task' => $task ]);
     }
 
     /**

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            ContactSeeder::class
+            TaskSeeder::class
         ]);
     }
 

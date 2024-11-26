@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Contact>
  */
-class ContactFactory extends Factory
+class TaskFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,9 @@ class ContactFactory extends Factory
     {
         return [
             //
-            'name' => fake()->name(),
-            'email' => fake()->email(),
-            'message' => fake()->text()
+            'title' => fake()->jobTitle(),
+            'description' => fake()->text(),
+            'uuid' => fake()->uuid()
         ];
     }
 }
