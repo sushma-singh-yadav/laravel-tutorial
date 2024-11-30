@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -35,6 +36,7 @@ class TaskController extends Controller
     public function create()
     {
         //
+        return view('addtask');
     }
 
     /**
@@ -46,8 +48,26 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
-        $task  = ['title' => 'task 1', 'description' => 'task 1'];
-        Task::create($task);
+        $task  = $request->all();
+        $task['uuid'] = Str::uuid();
+        $result = Task::create($task);
+
+        if($result){
+            ///delete the existing task list and again store
+            Redis::del("taskList");
+            $task = Task::all();
+            Redis::set("taskList",$task);
+
+            return $request->json([
+                "message" => "Task Added",
+                "status" => 200
+            ]);
+        } else {
+            return $request->json([
+                "message" => "Task Not Added",
+                "status" => 400
+            ]);
+        }
     }
 
     /**
