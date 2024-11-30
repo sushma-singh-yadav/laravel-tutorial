@@ -31,7 +31,7 @@
                             <td>{{$value->description}}</td>
                             <td>{{ date('d-m-Y',strtotime($value->created_at))}}</td>
                             <td>
-                                <a class="btn btn-primary" href="{{ url('edit',$value->id) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('edit',$value->uuid) }}">Edit</a>
                                 <button class="btn btn-danger">Delete</button>
                             </td>
                         </tr>

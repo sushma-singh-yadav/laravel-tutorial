@@ -19,5 +19,6 @@ Route::get('/create', [TaskController::class,'create']);
 Route::post('/store', [TaskController::class,'store']);
 Route::get('/show/{task}', [TaskController::class,'show']);
 Route::get('/edit/{task}', [TaskController::class,'edit']);
+Route::post('/update/{task}', [TaskController::class,'update']);
 
 

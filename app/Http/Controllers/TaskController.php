@@ -58,12 +58,12 @@ class TaskController extends Controller
             $task = Task::all();
             Redis::set("taskList",$task);
 
-            return $request->json([
+            return response()->json([
                 "message" => "Task Added",
                 "status" => 200
             ]);
         } else {
-            return $request->json([
+            return response()->json([
                 "message" => "Task Not Added",
                 "status" => 400
             ]);
@@ -79,9 +79,6 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         //
-        echo '<pre>';
-        dd($task);
-        return view('edittask');
     }
 
     /**
@@ -90,12 +87,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Task $task)
     {
         //
-        echo '<pre>';
-        dd($id);
-    //return view('edittask');
+        return view('edittask',["task"=>$task]);
     }
 
     /**
@@ -108,6 +103,11 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $taskData['title']  = $request->title;
+        $taskData['description']  = $request->description;
+        $result = Task::Where("uuid",$id)->update($taskData);
+
+        
     }
 
     /**
