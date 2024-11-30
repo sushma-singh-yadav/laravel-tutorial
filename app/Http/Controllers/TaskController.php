@@ -58,12 +58,19 @@ class TaskController extends Controller
             $task = Task::all();
             Redis::set("taskList",$task);
 
-            return $request->json([
+
+            //// set particular id cache
+            Redis::set("task_".$result->id,$result);
+
+            $taskNew = Redis::get("task_".$result->id);
+
+            return response()->json([
                 "message" => "Task Added",
-                "status" => 200
+                "status" => 200,
+                "data" =>  $taskNew
             ]);
         } else {
-            return $request->json([
+            return response()->json([
                 "message" => "Task Not Added",
                 "status" => 400
             ]);
@@ -81,7 +88,6 @@ class TaskController extends Controller
         //
         echo '<pre>';
         dd($task);
-        return view('edittask');
     }
 
     /**
