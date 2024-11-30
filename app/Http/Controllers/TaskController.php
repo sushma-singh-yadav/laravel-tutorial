@@ -80,7 +80,8 @@ class TaskController extends Controller
     {
         //
         echo '<pre>';
-        print_r($task);
+        dd($task);
+        return view('edittask');
     }
 
     /**
@@ -92,6 +93,9 @@ class TaskController extends Controller
     public function edit($id)
     {
         //
+        echo '<pre>';
+        dd($id);
+    //return view('edittask');
     }
 
     /**

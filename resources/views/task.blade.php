@@ -19,8 +19,9 @@
                 <thead class="bg-info">
                     <tr>
                         <th>Title</th>
-                        <th width="60%">Description</th>
+                        <th width="50%">Description</th>
                         <th>Created</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +29,11 @@
                         <tr>
                             <td>{{$value->title}}</td>
                             <td>{{$value->description}}</td>
-                            <td>{{$value->created_at}}</td>
+                            <td>{{ date('d-m-Y',strtotime($value->created_at))}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ url('edit',$value->id) }}">Edit</a>
+                                <button class="btn btn-danger">Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
