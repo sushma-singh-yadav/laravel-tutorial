@@ -58,9 +58,16 @@ class TaskController extends Controller
             $task = Task::all();
             Redis::set("taskList",$task);
 
+
+            //// set particular id cache
+            Redis::set("task_".$result->id,$result);
+
+            $taskNew = Redis::get("task_".$result->id);
+
             return response()->json([
                 "message" => "Task Added",
-                "status" => 200
+                "status" => 200,
+                "data" =>  $taskNew
             ]);
         } else {
             return response()->json([
@@ -87,10 +94,17 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
         //
-        return view('edittask',["task"=>$task]);
+        $taskData = Redis::get("task_".$id);
+        $task = json_decode($taskData);
+       // dd($task);
+        if(!isset($task))
+        {
+            $task = Task::Where("id",$id)->get()[0];
+        }
+        return view('edittask',["task"=> $task]);
     }
 
     /**
@@ -105,9 +119,27 @@ class TaskController extends Controller
         //
         $taskData['title']  = $request->title;
         $taskData['description']  = $request->description;
-        $result = Task::Where("uuid",$id)->update($taskData);
+        $result = Task::Where("id",$id)->update($taskData);
 
-        
+        if($result){
+             Redis::del("task_".$id);
+             $task = Task::Where("id",$id)->get()[0];
+
+             //// set particular id cache
+            Redis::set("task_".$id,$task );
+
+             ///delete the existing task list and again store
+             Redis::del("taskList");
+             $task = Task::all();
+             Redis::set("taskList",$task);
+             
+            $taskData = Redis::get("task_".$id);
+            return response()->json([
+                "message" => "Task Updated",
+                "status" => 200,
+                "data" =>  $taskData
+            ]);
+        }
     }
 
     /**

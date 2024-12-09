@@ -62,7 +62,7 @@
 
         $.ajax({
             method:"POST",
-            url:"{{url('update/'. $task->uuid)}}",
+            url:"{{url('update/'. $task->id)}}",
             data:uploadFormData,
             processData:false,
             contentType:false,
