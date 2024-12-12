@@ -32,7 +32,7 @@
                             <td>{{ date('d-m-Y',strtotime($value->created_at))}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{ url('edit',$value->id) }}">Edit</a>
-                                <button class="btn btn-danger">Delete</button>
+                                <button class="btn btn-danger" onclick="deleteRow('{{$value->id}}')">Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -49,6 +49,25 @@
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    function deleteRow(id){
+        $.ajax({
+            method:"delete",
+            url:"{{url('delete')}}"  + "/" + id,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "id": id
+                },
+            success:function(response){
+                console.log(response);
+                location.reload();
+            },
+            error:function(response){
+                console.log(response);
+            }
+        })
+    }
+</script>
 </body>
 
 </html>

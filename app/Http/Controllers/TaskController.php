@@ -132,7 +132,7 @@ class TaskController extends Controller
              Redis::del("taskList");
              $task = Task::all();
              Redis::set("taskList",$task);
-             
+
             $taskData = Redis::get("task_".$id);
             return response()->json([
                 "message" => "Task Updated",
@@ -151,5 +151,26 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+        $result = Task::Where("id",$id)->delete();
+        if($result){
+            Redis::del("task_".$id);
+            
+            ///delete the existing task list and again store
+            Redis::del("taskList");
+            $task = Task::all();
+            Redis::set("taskList",$task);
+
+            return response()->json([
+                "message" => "Task Deleted",
+                "status" => 200,
+                "data" =>  ""
+            ]);
+        } else {
+            return response()->json([
+                "message" => "Task Not Deleted",
+                "status" => 400,
+                "data" =>  ""
+            ]);
+        }
     }
 }
